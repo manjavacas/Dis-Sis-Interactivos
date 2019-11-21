@@ -1,0 +1,1 @@
+/home/pinkfloyd/Escritorio/ARS/main.py
