@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>Web app - API Conferences</title>
+
+    <!-- Codificación utilizada (UTF-8) para representar bien acentos, eñes, ...  -->
+    <meta charset="utf-8">
+
+    <!-- Meta-etiquetas para los robots araña de los buscadores -->
+    <meta name="description" content="Aplicación Web CRUS attendees (de ejemplo)">
+    <meta name="keywords" content="HTML5,CSS3,Javascript,jQuery,Bootstrap,Knockout.js, cliente Web, REST API">
+
+    <!-- Etiqueta relacionada con Bootstrap. Sirve para ayudar a Bootstrap a escalar correctamente
+    el contenido de la página-aplicación según el tamaño de la ventana del navegador -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Hoja de estilo Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <!-- Hoja de estilo Para usar los iconos de Font Awesome-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css">
+
+    <!-- Javascript (poner jQuery primero), Bootstrap & Knockout.js -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+</head>
+
+<body>
+
+    <!-- Barra de navegación con subcomponentes diversos que automáticamente colapsa cuando el tamaño 
+    es menor que "Large" (<992 píxeles). Se emplea un estilo y un fondo en tonos claro, 
+    proporcionados por Bootstrap. Se configura como "siempre visible -->
+    <nav class="navbar navbar-expand-lg navbar-fixed-top navbar-dark bg-dark style=" background-color: #075362;">
+        <div class="container">
+            <!-- Logotipo - marca de la aplicación (usar clase navbar-brand aplicado sobre un <a></a>)
+                Se ha añadido un icono de Font Awesome que representa a un grupo de attendees-->
+            <a href="index.html" class="navbar-brand"><i class="fas fa-university"></i> CongressAPI</a>
+            <!-- Ejemplo de botón colapsable para albergar las posibles secciones de la aplciación-->
+            </button>
+            <!--Contenedor con lista de secciones colapsable-->
+            <div id="navbarNavDropdown" class="collapse navbar-collapse" id="navbarContenidoSecciones">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="index.html">Attendees</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div id="cuerpo" class="container">
+        <!-- Tabla estilo cebra con datos vinculados  -->
+        <table class="table table-striped" style="margin-top:50px;">
+            <tr>
+                <td style="width: 1px;"></td>
+                <td><b>Attendee</b></td>
+                <td><b>Options</b></td>
+                <td><b>Is lecturer?</b></td>
+            </tr>
+            <!-- ko foreach: attendees -->
+            <tr>
+                <td>
+                    <span data-bind="text: id" class="label"></span>
+                </td>
+                <td>
+                    <p><b>Name:&nbsp;&nbsp;</b><span data-bind="text: name"></span></p>
+                    <p><b>Surname:&nbsp;&nbsp;</b><span data-bind="text: surname"></span></p>
+                    <p><b>Institution:&nbsp;&nbsp;</b><span data-bind="text: institution"></span></p>
+                </td>
+                <td>
+                    <button data-bind="click: $parent.edit" class="btn">Edit</button>
+                    <button data-bind="click: $parent.delete" class="btn">Delete</button>
+                </td>
+                <td>
+                    <span data-bind="visible: is_lecturer" class="badge badge-success">Is lecturer</span>
+                    <span data-bind="visible: !is_lecturer()" class="badge badge-danger">Isn't lecturer</span>
+                </td>
+            </tr>
+            <!-- /ko -->
+        </table>
+        <div class="row">
+            <div class="col-12"><button data-bind="click: anyadir" class="btn float-right"
+                    style="margin-bottom:50px;">Add attendee</button></div>
+        </div>
+    </div>
+
+    <div id="anyadir" class="modal hide fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-light">
+                    <h5>Add attendee</h5>
+                    <!-- data-dismiss cierra todos los cuadros modales abiertos -->
+                    <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <div class="control-group">
+                            <label class="control-label" for="inputNombre">Name</label>
+                            <div class="controls">
+                                <input data-bind="value: name" type="text" id="inputNombre" placeholder="Ej. Antonio"
+                                    style="width: 150px;">
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="inputApellido">Surname</label>
+                            <div class="controls">
+                                <input data-bind="value: surname" type="text" id="inputApellido"
+                                    placeholder="Ej. Manjavacas" style="width: 150px;">
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="inputInstitucion">Institution</label>
+                            <div class="controls">
+                                <input data-bind="value: institution" type="text" id="inputInstitution"
+                                    placeholder="Ej. UCLM" style="width: 150px;">
+                            </div>
+                        </div>
+                        <div class="control-group" style="margin-top:20px;">
+                            <label class="control-label" for="inputCheckbox"></label>
+                            <div class="controls">
+                                Is lecturer: <input type="checkbox" data-bind="checked: is_lecturer" id="inputCheckbox"
+                                    checked />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button data-bind="click: anyadirattendee" type="button" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cuadro de dialogo para editar un attendee -->
+    <div id="editar" class="modal hide fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-light">
+                    <h5>Edit user</h5>
+                    <!-- data-dismiss cierra todos los cuadros modales abiertos -->
+                    <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <div class="control-group">
+                            <label class="control-label" for="inputNombre">Nombre</label>
+                            <div class="controls">
+                                <input data-bind="value: name" type="text" id="inputNombre" placeholder="Ej. Antonio"
+                                    style="width: 150px;">
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="inputApellido">Surname</label>
+                            <div class="controls">
+                                <input data-bind="value: surname" type="text" id="inputSurname"
+                                    placeholder="Ej. Manjavacas" style="width: 150px;">
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="inputInstitution">Institution</label>
+                            <div class="controls">
+                                <input data-bind="value: institution" type="text" id="inputInstitution"
+                                    placeholder="Ej. UCLM" style="width: 150px;">
+                            </div>
+                        </div>
+                        <div class="control-group" style="margin-top:20px;">
+                            <label class="control-label" for="inputCheckbox"></label>
+                            <div class="controls">
+                                Is lecturer: <input type="checkbox" data-bind="checked: is_lecturer" id="inputCheckbox"
+                                    checked />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button data-bind="click: guardarModificacion" type="button" class="btn btn-primary">Save
+                        changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        // Código Javascript
+        function AttendeesViewModel() {
+            var self = this;
+            self.attendeesURI = 'http://localhost:5000/v1/attendees/';
+            self.attendees = ko.observableArray();
+
+            self.miAjax = function (uri, method, data) {
+                var request = {
+                    url: uri,
+                    type: method,
+                    contentType: "application/json",
+                    accepts: "application/json",
+                    cache: false,
+                    dataType: 'json',
+                    data: JSON.stringify(data),
+                    error: function (jqXHR) {
+                        console.log("Error during Ajax petition: " + jqXHR.status);
+                    }
+                };
+
+                return $.ajax(request);
+            }
+
+            self.anyadir = function () {
+                $('#anyadir').modal('show');
+            }
+
+            self.guardarNuevo = function (attendee) {
+                self.miAjax(self.attendeesURI, 'POST', attendee).done(
+                    function (data) {
+                        self.attendees.push({
+                            id: ko.observable(data.attendee.iden),
+                            name: ko.observable(data.attendee.name),
+                            surname: ko.observable(data.attendee.surname),
+                            institution: ko.observable(data.attendee.institution),
+                            is_lecturer: ko.observable(data.attendee.is_lecturer)
+                        });
+                    }
+                );
+            }
+
+            self.editar = function (attendee) {
+                editarAttendeeViewModel.mostrarAttendee(attendee);
+                $('#editar').modal('show');
+            }
+
+            self.guardarModificacion = function (attendeeOriginal, attendeeModificado) {
+                self.miAjax(self.attendeesURI + attendeeModificado.id + '/', 'PUT', attendeeModificado).done(
+                    function (data) {
+                        data.attendee.iden = ko.observable(data.attendee.iden);
+                        data.attendee.name = ko.observable(data.attendee.name);
+                        data.attendee.surname = ko.observable(data.attendee.surname);
+                        data.attendee.institution = ko.observable(data.attendee.institution);
+                        data.attendee.is_lecturer = ko.observable(data.attendee.is_lecturer);
+                        self.attendees.replace(attendeeOriginal, data.attendee);
+                    });
+            }
+
+            self.borrar = function (attendee) {
+                alert("Delete: " + attendee.nombreattendee());
+            }
+
+            // Para el get que obtiene la colección de attendees completa NO pasamos datos 
+            self.miAjax(self.attendeesURI, 'GET').done(function (data) {
+                for (var i = 0; i < data.attendees.length; i++) {
+                    self.attendees.push({
+                        iden: ko.observable(data.attendees[i].iden),
+                        name: ko.observable(data.attendees[i].name),
+                        surname: ko.observable(data.attendees[i].surname),
+                        institution: ko.observable(data.attendees[i].institution),
+                        is_lecturer: ko.observable(data.attendees[i].is_lecturer)
+                    });
+                }
+            });
+        }
+
+        var AttendeesViewModel = new AttendeesViewModel();
+
+        // Nuevo Modelo de Vista para anyadir attendees
+        function AnyadirAttendeeViewModel() {
+            var self = this;
+            self.name = ko.observable();
+            self.surname = ko.observable();
+            self.institution = ko.observable();
+            self.is_lecturer = ko.observable(true);
+
+            self.anyadirattendee = function () {
+                $('#anyadir').modal('hide');
+
+                AttendeesViewModel.guardarNuevo({
+                    name: self.name(),
+                    surname: self.surname(),
+                    institution: self.institution(),
+                    is_lecturer: self.is_lecturer()
+                });
+                self.name("");
+                self.surname("");
+                self.institution("")
+            }
+        }
+
+        // Nuevo Modelo de Vista para editar attendees
+        function EditarAttendeeViewModel() {
+            var self = this;
+            self.iden = ko.observable();
+            self.name = ko.observable();
+            self.surname = ko.observable();
+            self.institution = ko.observable();
+            self.is_lecturer = ko.observable(true);
+
+            self.mostrarAttendee = function (attendee) {
+                // Lo copia antes de modificarlo
+                self.attendee = attendee;
+                self.iden(attendee.iden())
+                self.name(attendee.name());
+                self.surname(attendee.surname());
+                self.institution(attendee.institution());
+                self.is_lecturer(attendee.is_lecturer());
+            }
+
+            self.guardarModificacion = function () {
+                $('#editar').modal('hide');
+                AttendeesViewModel.guardarModificacion(self.attendee, {
+                    iden: self.iden(),
+                    name: self.name(),
+                    surname: self.surname(),
+                    institution: self.institution(),
+                    is_lecturer: self.is_lecturer()
+                })
+            }
+        }
+
+        var anyadirAttendeeViewModel = new AnyadirAttendeeViewModel();
+        ko.applyBindings(AttendeesViewModel, $('#cuerpo')[0]);
+        ko.applyBindings(anyadirAttendeeViewModel, $('#anyadir')[0]);
+        var editarAttendeeViewModel = new EditarAttendeeViewModel();
+        ko.applyBindings(editarAttendeeViewModel, $('#editar')[0]);
+    </script>
+</body>
+
+</html>
