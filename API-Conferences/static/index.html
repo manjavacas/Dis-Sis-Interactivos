@@ -8,7 +8,7 @@
     <meta charset="utf-8">
 
     <!-- Meta-etiquetas para los robots araña de los buscadores -->
-    <meta name="description" content="Aplicación Web CRUS attendees (de ejemplo)">
+    <meta name="description" content="Conferences WEB APP">
     <meta name="keywords" content="HTML5,CSS3,Javascript,jQuery,Bootstrap,Knockout.js, cliente Web, REST API">
 
     <!-- Etiqueta relacionada con Bootstrap. Sirve para ayudar a Bootstrap a escalar correctamente
@@ -28,13 +28,13 @@
 
 <body>
 
-    <!-- Barra de navegación con subcomponentes diversos que automáticamente colapsa cuando el tamaño 
-    es menor que "Large" (<992 píxeles). Se emplea un estilo y un fondo en tonos claro, 
+    <!-- Barra de navegación con subcomponentes diversos que automáticamente colapsa cuando el tamaño
+    es menor que "Large" (<992 píxeles). Se emplea un estilo y un fondo en tonos claro,
     proporcionados por Bootstrap. Se configura como "siempre visible -->
     <nav class="navbar navbar-expand-lg navbar-fixed-top navbar-dark bg-dark style=" background-color: #075362;">
         <div class="container">
             <!-- Logotipo - marca de la aplicación (usar clase navbar-brand aplicado sobre un <a></a>)
-                Se ha añadido un icono de Font Awesome que representa a un grupo de attendees-->
+                Se ha añadido un icono de Font Awesome-->
             <a href="index.html" class="navbar-brand"><i class="fas fa-university"></i> CongressAPI</a>
             <!-- Ejemplo de botón colapsable para albergar las posibles secciones de la aplciación-->
             </button>
@@ -43,6 +43,9 @@
                 <ul class="navbar-nav">
                     <li class="nav-item active">
                         <a class="nav-link" href="index.html">Attendees</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="presentations.html">Presentations</a>                 
                     </li>
                 </ul>
             </div>
@@ -248,7 +251,7 @@
                 alert("Delete: " + attendee.nombreattendee());
             }
 
-            // Para el get que obtiene la colección de attendees completa NO pasamos datos 
+            // Para el get que obtiene la colección de attendees completa NO pasamos datos
             self.miAjax(self.attendeesURI, 'GET').done(function (data) {
                 for (var i = 0; i < data.attendees.length; i++) {
                     self.attendees.push({

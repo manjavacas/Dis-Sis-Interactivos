@@ -2,9 +2,11 @@
 Práctica de la asignatura Diseño de Sistemas Interactivos. Curso 2019/2020.
 - Antonio Manjavacas
 
-## VIRTUAL ENVIRONMENT ##
+## RUN APPLICATION ##
 
-  $ source bin/activate
+  $ python ./main.py
+
+  The app will be running in 'localhost:5000'
 
 ## ENDPOINTS ##
 
