@@ -4,23 +4,16 @@
 <head>
     <title>Web app - API Conferences</title>
 
-    <!-- Codificación utilizada (UTF-8) para representar bien acentos, eñes, ...  -->
     <meta charset="utf-8">
 
-    <!-- Meta-etiquetas para los robots araña de los buscadores -->
     <meta name="description" content="Conferences WEB APP">
     <meta name="keywords" content="HTML5,CSS3,Javascript,jQuery,Bootstrap,Knockout.js, cliente Web, REST API">
 
-    <!-- Etiqueta relacionada con Bootstrap. Sirve para ayudar a Bootstrap a escalar correctamente
-    el contenido de la página-aplicación según el tamaño de la ventana del navegador -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Hoja de estilo Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-    <!-- Hoja de estilo Para usar los iconos de Font Awesome-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css">
 
-    <!-- Javascript (poner jQuery primero), Bootstrap & Knockout.js -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
@@ -28,24 +21,17 @@
 
 <body>
 
-    <!-- Barra de navegación con subcomponentes diversos que automáticamente colapsa cuando el tamaño
-    es menor que "Large" (<992 píxeles). Se emplea un estilo y un fondo en tonos claro,
-    proporcionados por Bootstrap. Se configura como "siempre visible -->
     <nav class="navbar navbar-expand-lg navbar-fixed-top navbar-dark bg-dark style=" background-color: #075362;">
         <div class="container">
-            <!-- Logotipo - marca de la aplicación (usar clase navbar-brand aplicado sobre un <a></a>)
-                Se ha añadido un icono de Font Awesome-->
             <a href="index.html" class="navbar-brand"><i class="fas fa-university"></i> CongressAPI</a>
-            <!-- Ejemplo de botón colapsable para albergar las posibles secciones de la aplciación-->
             </button>
-            <!--Contenedor con lista de secciones colapsable-->
             <div id="navbarNavDropdown" class="collapse navbar-collapse" id="navbarContenidoSecciones">
                 <ul class="navbar-nav">
                     <li class="nav-item active">
                         <a class="nav-link" href="index.html">Attendees</a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="presentations.html">Presentations</a>                 
+                        <a class="nav-link" href="presentations.html">Presentations</a>
                     </li>
                 </ul>
             </div>
@@ -53,7 +39,6 @@
     </nav>
 
     <div id="cuerpo" class="container">
-        <!-- Tabla estilo cebra con datos vinculados  -->
         <table class="table table-striped" style="margin-top:50px;">
             <tr>
                 <td style="width: 1px;"></td>
@@ -93,7 +78,6 @@
             <div class="modal-content">
                 <div class="modal-header bg-primary text-light">
                     <h5>Add attendee</h5>
-                    <!-- data-dismiss cierra todos los cuadros modales abiertos -->
                     <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -137,13 +121,11 @@
         </div>
     </div>
 
-    <!-- Cuadro de dialogo para edit un attendee -->
     <div id="edit" class="modal hide fade" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-primary text-light">
                     <h5>Edit user</h5>
-                    <!-- data-dismiss cierra todos los cuadros modales abiertos -->
                     <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -189,7 +171,6 @@
     </div>
 
     <script type="text/javascript">
-        // Código Javascript
         function AttendeesViewModel() {
             var self = this;
             self.attendeesURI = 'http://localhost:5000/v1/attendees';
@@ -251,7 +232,6 @@
                 alert("Delete: " + attendee.nombreattendee());
             }
 
-            // Para el get que obtiene la colección de attendees completa NO pasamos datos
             self.miAjax(self.attendeesURI, 'GET').done(function (data) {
                 for (var i = 0; i < data.attendees.length; i++) {
                     self.attendees.push({
@@ -267,7 +247,6 @@
 
         var AttendeesViewModel = new AttendeesViewModel();
 
-        // Nuevo Modelo de Vista para anyadir attendees
         function AnyadirAttendeeViewModel() {
             var self = this;
             self.name = ko.observable();
@@ -290,7 +269,6 @@
             }
         }
 
-        // Nuevo Modelo de Vista para edit attendees
         function editAttendeeViewModel() {
             var self = this;
             self.iden = ko.observable();
@@ -300,7 +278,6 @@
             self.is_lecturer = ko.observable(true);
 
             self.mostrarAttendee = function (attendee) {
-                // Lo copia antes de modificarlo
                 self.attendee = attendee;
                 self.iden(attendee.iden())
                 self.name(attendee.name());
