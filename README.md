@@ -2,6 +2,10 @@
 Práctica de la asignatura Diseño de Sistemas Interactivos. Curso 2019/2020.
 - Antonio Manjavacas
 
+## VIRTUAL ENVIRONMENT ##
+
+  $ source bin/activate
+
 ## ENDPOINTS ##
 
 - http://127.0.0.1:5000/v1/attendees/

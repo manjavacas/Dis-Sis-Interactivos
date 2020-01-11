@@ -61,7 +61,7 @@
             <!-- ko foreach: attendees -->
             <tr>
                 <td>
-                    <span data-bind="text: id" class="label"></span>
+                    <span data-bind="text: iden" class="label"></span>
                 </td>
                 <td>
                     <p><b>Name:&nbsp;&nbsp;</b><span data-bind="text: name"></span></p>
@@ -134,8 +134,8 @@
         </div>
     </div>
 
-    <!-- Cuadro de dialogo para editar un attendee -->
-    <div id="editar" class="modal hide fade" tabindex="-1" role="dialog">
+    <!-- Cuadro de dialogo para edit un attendee -->
+    <div id="edit" class="modal hide fade" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-primary text-light">
@@ -189,7 +189,7 @@
         // Código Javascript
         function AttendeesViewModel() {
             var self = this;
-            self.attendeesURI = 'http://localhost:5000/v1/attendees/';
+            self.attendeesURI = 'http://localhost:5000/v1/attendees';
             self.attendees = ko.observableArray();
 
             self.miAjax = function (uri, method, data) {
@@ -227,9 +227,9 @@
                 );
             }
 
-            self.editar = function (attendee) {
-                editarAttendeeViewModel.mostrarAttendee(attendee);
-                $('#editar').modal('show');
+            self.edit = function (attendee) {
+                editAttendeeViewModel.mostrarAttendee(attendee);
+                $('#edit').modal('show');
             }
 
             self.guardarModificacion = function (attendeeOriginal, attendeeModificado) {
@@ -287,8 +287,8 @@
             }
         }
 
-        // Nuevo Modelo de Vista para editar attendees
-        function EditarAttendeeViewModel() {
+        // Nuevo Modelo de Vista para edit attendees
+        function editAttendeeViewModel() {
             var self = this;
             self.iden = ko.observable();
             self.name = ko.observable();
@@ -307,7 +307,7 @@
             }
 
             self.guardarModificacion = function () {
-                $('#editar').modal('hide');
+                $('#edit').modal('hide');
                 AttendeesViewModel.guardarModificacion(self.attendee, {
                     iden: self.iden(),
                     name: self.name(),
@@ -321,8 +321,8 @@
         var anyadirAttendeeViewModel = new AnyadirAttendeeViewModel();
         ko.applyBindings(AttendeesViewModel, $('#cuerpo')[0]);
         ko.applyBindings(anyadirAttendeeViewModel, $('#anyadir')[0]);
-        var editarAttendeeViewModel = new EditarAttendeeViewModel();
-        ko.applyBindings(editarAttendeeViewModel, $('#editar')[0]);
+        var editAttendeeViewModel = new editAttendeeViewModel();
+        ko.applyBindings(editAttendeeViewModel, $('#edit')[0]);
     </script>
 </body>
 
